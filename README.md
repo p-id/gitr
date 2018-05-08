@@ -1,9 +1,14 @@
 Git usage
 =========
+<!-- :: \iffalse -->
 [![CC BY 4.0 License][SHIELD_CCBY]][CCBY]
+<!-- :: -->
 [SHIELD_PDF]: https://img.shields.io/badge/download-PDF-brightgreen.svg
 [SHIELD_TXT]: https://img.shields.io/badge/download-TXT-brightgreen.svg
 [SHIELD_CCBY]: https://img.shields.io/badge/license-CC%20BY%204.0-blue.svg
+<!-- :: \fi -->
+<!-- Version 0.1a -->
+<!-- :: \maketitle -->
 
 This document starts with basic git usage and explains a basic
 work-flow so developers may contribute pull requests to an upstream
@@ -26,6 +31,13 @@ Contents
 * [Redo commits](#redo-commits)
 * [Synchronize changes](#synchronize-changes)
 * [Create Pull Request](#create-pull-request)
+* [Adding a New Subproject](#adding-a-new-subproject)
+* [Viewing a Diff of the Subproject](#viewing-a-diff-of-the-subproject)
+* [Cloning a Repository with a Subproject](#cloning-a-repository-with-a-subproject)
+* [Pulling in Subproject Updates](#pulling-in-subproject-updates)
+* [Making Changes to a Subproject](#making-changes-to-a-subproject)
+* [Pushing Changes to the Subproject Repository](#pushing-changes-to-the-subproject-repository)
+* [Helpful Configs for Submodules](#helpful-configs-for-submodules)
 * [License](#license)
 * [Support](#support)
 
@@ -40,6 +52,21 @@ document to keep the text general. However in the command examples and
 ASCII-diagrams, we use `master` as an example of the main development
 branch.
 
+We use the following placeholders in the command examples and
+ASCII-diagrams in this document:
+
+  - `GITHUB`: [`github.com`](https://github.com/) or domain
+    name/hostname of your private GitHub Enterprise system.
+  - `USER` or `CONTRIBUTOR`: The user that forks an upstream repository,
+    creates pull requests, and sends them to the upstream repository.
+  - `UPSTREAM-OWNER`: Owner of the upstream repository. This is the name
+    of the user or organization that merges pull requests into the
+    upstream repository.
+  - `REPO`: Repository name.
+  - `FILES`: One or more filenames to be staged for a commit.
+  - `TOPIC-BRANCH`: Feature-specific or bug-specific branch where a
+    contributor develops her or his contribution. This is referred to as
+    *topic branch* in the text.
 
 Configure tooling
 -----------------
@@ -118,8 +145,9 @@ Combines the specified branch’s history into the current branch
 $ git branch -d [branch-name]
 
 Deletes the specified branch
-Refactor file names
 
+Refactor file names
+-------------------
 Relocate and remove versioned files
 
 $ git rm [file]
@@ -276,6 +304,127 @@ Create pull request via GitHub web interface as per the following steps:
   very easy to keep the main development branch of your fork in sync with
   that of the upstream repository. This is explained in the next
   subsection.
+
+
+Adding a New Subproject
+-----------------------
+
+### Submodule
+    git submodule add https://GITHUB/USER/example-submodule
+
+    git commit -m "adding new submodule"
+
+The submodule add command adds a new file called .gitmodules along with a
+subdirectory containing the files from example-submodule. Both are added to
+your index (staging area) and you simply need to commit them.
+The submodule’s history remains independent of the parent project.
+
+### Subtree
+
+    git subtree add --prefix=example-submodule https://GITHUB/USER/example-submodule master --squash
+
+The subtree command adds a subdirectory containing the files from
+example-submodule. The most common practice is to use the --squash option to
+combine the subproject’s history into a single commit, which is then grafted
+onto the existing tree of the parent project. You can omit the --squash option
+to maintain all of the history from the designated branch of the subproject.
+
+Viewing a Diff of the Subproject
+--------------------------------
+### Submodule
+To view a diff of the submodule:
+
+    git diff --cached example-submodule
+    git diff --cached --submodule example-submodule
+
+### Subtree
+No special command required
+
+Cloning a Repository with a Subproject
+--------------------------------------
+### Submodule
+Anyone who clones will need to:
+
+    git clone --recursive URL
+
+Anyone who already has a local copy of the repo will need to:
+
+    git submodule update --init
+
+### Subtree
+  No special command required
+
+
+Pulling in Subproject Updates
+-----------------------------
+### Submodule
+    git submodule update --remote
+
+If you have more than one submodule, you can add the name of the submodule to
+the end of the command to specify which subproject to update.
+
+By default, this will update the submodule and check out to the default branch of the submodule remote.
+
+You can change the default branch with:
+
+    git config -f .gitmodules submodule.example-submodule.branch other-branch
+
+### Subtree
+    git subtree pull --prefix=example-submodule https://GITHUB/USER/REPO/example-submodule master --squash
+
+You can shorten the command by adding the subtree URL as a remote:
+
+    git remote add sub-remote https://GITHUB/USER/REPO/example-submodule.git
+
+You can add/pull from other refs by replacing master with the desired ref (e.g. stable, v1.0).
+
+Making Changes to a Subproject
+------------------------------
+In most cases, it is considered best practice to make changes in the subproject
+repository and pull them in to the parent project. When this is not practical,
+follow these instructions:
+
+### Submodule
+Access the submodule directory and create a branch:
+
+    cd example-submodule
+    git checkout -b branch-name master
+
+Changes require two commits, one in the subproject repository and one in the parent repository.
+
+###Subtree
+No special command required, changes will be committed on the parent project branch.
+
+It is possible to create commits mixing changes to the subproject and the parent project, but this is generally discouraged.
+
+Pushing Changes to the Subproject Repository
+--------------------------------------------
+### Submodule
+While in the submodule directory:
+
+    git push
+
+Or while in the parent directory:
+
+    git push --recurse-submodules=on-demand
+
+### Subtree
+    git subtree push --prefix= example-submodule https://GITHUB/USER/REPO/example-submodule master
+
+
+Helpful Configs for Submodules
+------------------------------
+Always show the submodule log when you diff:
+
+    git config --global diff.submodule log
+
+Show a short summary of submodule changes in your status message:
+
+    git config status.submoduleSummary true
+
+See the diffs in all of your submodules:
+
+    git config alias.sdiff "git diff; git submodule foreach 'git diff'"
 
 
 License
