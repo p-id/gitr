@@ -97,27 +97,27 @@ Make changes
 ------------
 Review edits and craft a commit transaction
 
-$ git status
+  $ git status
 
 Lists all new or modified files to be committed
 
-$ git diff
+  $ git diff
 
 Shows file differences not yet staged
 
-$ git add [file]
+  $ git add [file]
 
 Snapshots the file in preparation for versioning
 
-$ git diff --staged
+  $ git diff --staged
 
 Shows file differences between staging and the last file version
 
-$ git reset [file]
+  $ git reset [file]
 
 Unstages the file, but preserves its contents
 
-$ git commit -m"[descriptive message]"
+  $ git commit -m"[descriptive message]"
 
 Records file snapshots permanently in version history
 
@@ -126,23 +126,23 @@ Group changes
 
 Name a series of commits and combine completed efforts
 
-$ git branch
+  $ git branch
 
 Lists all local branches in the current repository
 
-$ git branch [branch-name]
+  $ git branch [branch-name]
 
 Creates a new branch
 
-$ git checkout [branch-name]
+  $ git checkout [branch-name]
 
 Switches to the specified branch and updates working directory
 
-$ git merge [branch-name]
+  $ git merge [branch-name]
 
 Combines the specified branch’s history into the current branch
 
-$ git branch -d [branch-name]
+  $ git branch -d [branch-name]
 
 Deletes the specified branch
 
@@ -150,15 +150,15 @@ Refactor file names
 -------------------
 Relocate and remove versioned files
 
-$ git rm [file]
+  $ git rm [file]
 
 Deletes the file from the working directory and stages the deletion
 
-$ git rm --cached [file]
+  $ git rm --cached [file]
 
 Removes the file from version control but preserves the file locally
 
-$ git mv [file-original] [file-renamed]
+  $ git mv [file-original] [file-renamed]
 
 Changes the file name and prepare it for commit
 
@@ -172,7 +172,7 @@ temp-*
 
 A text file named .gitignore suppresses accidental versioning of files and paths matching the specified patterns
 
-$ git ls-files --others --ignored --exclude-standard
+  $ git ls-files --others --ignored --exclude-standard
 
 Lists all ignored files in this project
 
@@ -180,19 +180,19 @@ Save fragments
 --------------
 Shelve and restore incomplete changes
 
-$ git stash
+  $ git stash
 
 Temporarily stores all modified tracked files
 
-$ git stash pop
+  $ git stash pop
 
 Restores the most recently stashed files
 
-$ git stash list
+  $ git stash list
 
 Lists all stashed changesets
 
-$ git stash drop
+  $ git stash drop
 
 Discards the most recently stashed changeset
 
@@ -200,19 +200,19 @@ Review history
 --------------
 Browse and inspect the evolution of project files
 
-$ git log
+  $ git log
 
 Lists version history for the current branch
 
-$ git log --follow [file]
+  $ git log --follow [file]
 
 Lists version history for the file, including renames
 
-$ git diff [first-branch]...[second-branch]
+  $ git diff [first-branch]...[second-branch]
 
 Shows content differences between two branches
 
-$ git show [commit]
+  $ git show [commit]
 
 Outputs metadata and content changes of the specified commit
 
@@ -220,11 +220,11 @@ Redo commits
 ------------
 Erase mistakes and craft replacement history
 
-$ git reset [commit]
+  $ git reset [commit]
 
 Undoes all commits after [commit], preserving changes locally
 
-$ git reset --hard [commit]
+  $ git reset --hard [commit]
 
 Discards all history and changes back to the specified commit
 
@@ -232,19 +232,19 @@ Synchronize changes
 -------------------
 Register a remote (URL) and exchange repository history
 
-$ git fetch [remote]
+  $ git fetch [remote]
 
 Downloads all history from the remote repository
 
-$ git merge [remote]/[branch]
+  $ git merge [remote]/[branch]
 
 Combines the remote branch into the current local branch
 
-$ git push [remote] [branch]
+  $ git push [remote] [branch]
 
 Uploads all local branch commits to GitHub
 
-$ git pull
+  $ git pull
 
 Downloads bookmark history and incorporates changes
 
@@ -262,10 +262,10 @@ Then clone your fork from your personal GitHub user account to your
 local system and set the upstream repository URL as a remote named
 `upstream`.
 
-    git clone https://GITHUB/USER/REPO.git
-    cd REPO
-    git remote add upstream https://GITHUB/UPSTREAM-OWNER/REPO.git
-    git remote -v
+    $ git clone https://GITHUB/USER/REPO.git
+    $ cd REPO
+    $ git remote add upstream https://GITHUB/UPSTREAM-OWNER/REPO.git
+    $ git remote -v
 
 Now the remote named `upstream` points to the upstream repository and
 the remote named `origin` points to your fork.
@@ -279,10 +279,10 @@ Work on a new pull request in a new topic branch and commit to your
 fork. Remember to use a meaningful name instead of `TOPIC-BRANCH` in the
 commands below.
 
-    git checkout -b TOPIC-BRANCH
-    git add FILES
-    git commit
-    git push origin TOPIC-BRANCH
+    $ git checkout -b TOPIC-BRANCH
+    $ git add FILES
+    $ git commit
+    $ git push origin TOPIC-BRANCH
 
 Create pull request via GitHub web interface as per the following steps:
 
@@ -310,9 +310,9 @@ Adding a New Subproject
 -----------------------
 
 ### Submodule
-    git submodule add https://GITHUB/USER/example-submodule
+    $ git submodule add https://GITHUB/USER/example-submodule
 
-    git commit -m "adding new submodule"
+    $ git commit -m "adding new submodule"
 
 The submodule add command adds a new file called .gitmodules along with a
 subdirectory containing the files from example-submodule. Both are added to
@@ -321,7 +321,7 @@ The submodule’s history remains independent of the parent project.
 
 ### Subtree
 
-    git subtree add --prefix=example-submodule https://GITHUB/USER/example-submodule master --squash
+    $ git subtree add --prefix=example-submodule https://GITHUB/USER/example-submodule master --squash
 
 The subtree command adds a subdirectory containing the files from
 example-submodule. The most common practice is to use the --squash option to
@@ -334,8 +334,8 @@ Viewing a Diff of the Subproject
 ### Submodule
 To view a diff of the submodule:
 
-    git diff --cached example-submodule
-    git diff --cached --submodule example-submodule
+    $ git diff --cached example-submodule
+    $ git diff --cached --submodule example-submodule
 
 ### Subtree
 No special command required
@@ -345,11 +345,11 @@ Cloning a Repository with a Subproject
 ### Submodule
 Anyone who clones will need to:
 
-    git clone --recursive URL
+    $ git clone --recursive URL
 
 Anyone who already has a local copy of the repo will need to:
 
-    git submodule update --init
+    $ git submodule update --init
 
 ### Subtree
   No special command required
@@ -358,7 +358,7 @@ Anyone who already has a local copy of the repo will need to:
 Pulling in Subproject Updates
 -----------------------------
 ### Submodule
-    git submodule update --remote
+    $ git submodule update --remote
 
 If you have more than one submodule, you can add the name of the submodule to
 the end of the command to specify which subproject to update.
@@ -367,14 +367,14 @@ By default, this will update the submodule and check out to the default branch o
 
 You can change the default branch with:
 
-    git config -f .gitmodules submodule.example-submodule.branch other-branch
+    $ git config -f .gitmodules submodule.example-submodule.branch other-branch
 
 ### Subtree
-    git subtree pull --prefix=example-submodule https://GITHUB/USER/REPO/example-submodule master --squash
+    $ git subtree pull --prefix=example-submodule https://GITHUB/USER/REPO/example-submodule master --squash
 
 You can shorten the command by adding the subtree URL as a remote:
 
-    git remote add sub-remote https://GITHUB/USER/REPO/example-submodule.git
+    $ git remote add sub-remote https://GITHUB/USER/REPO/example-submodule.git
 
 You can add/pull from other refs by replacing master with the desired ref (e.g. stable, v1.0).
 
@@ -387,8 +387,8 @@ follow these instructions:
 ### Submodule
 Access the submodule directory and create a branch:
 
-    cd example-submodule
-    git checkout -b branch-name master
+    $ cd example-submodule
+    $ git checkout -b branch-name master
 
 Changes require two commits, one in the subproject repository and one in the parent repository.
 
@@ -402,37 +402,35 @@ Pushing Changes to the Subproject Repository
 ### Submodule
 While in the submodule directory:
 
-    git push
+    $ git push
 
 Or while in the parent directory:
 
-    git push --recurse-submodules=on-demand
+    $ git push --recurse-submodules=on-demand
 
 ### Subtree
-    git subtree push --prefix= example-submodule https://GITHUB/USER/REPO/example-submodule master
+    $ git subtree push --prefix= example-submodule https://GITHUB/USER/REPO/example-submodule master
 
 
 Helpful Configs for Submodules
 ------------------------------
 Always show the submodule log when you diff:
 
-    git config --global diff.submodule log
+    $ git config --global diff.submodule log
 
 Show a short summary of submodule changes in your status message:
 
-    git config status.submoduleSummary true
+    $ git config status.submoduleSummary true
 
 See the diffs in all of your submodules:
 
-    git config alias.sdiff "git diff; git submodule foreach 'git diff'"
+    $ git config alias.sdiff "git diff; git submodule foreach 'git diff'"
 
 
 License
 -------
 Copyright &copy; 2018 Piyush Dewnani
 
-[![CC BY 4.0 Logo](meta/ccby.svg "CC BY 4.0")][CCBY]
-<!-- :: -->
 This document is licensed under the
 [Creative Commons Attribution 4.0 International License][CCBY].
 
